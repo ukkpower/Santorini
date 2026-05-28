@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Santorini Group Itinerary</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIINfQ0qVbsA3zT3VLS4Hbyr0R3fL4I3qjM="
+      crossorigin="">
+    <style>
+      .leaflet-pane,
+      .leaflet-tile,
+      .leaflet-marker-icon,
+      .leaflet-marker-shadow,
+      .leaflet-tile-container,
+      .leaflet-pane > svg,
+      .leaflet-pane > canvas,
+      .leaflet-zoom-box,
+      .leaflet-image-layer,
+      .leaflet-layer {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      .leaflet-container {
+        overflow: hidden;
+        background: #ddd;
+        outline-offset: 1px;
+        touch-action: pan-x pan-y;
+      }
+
+      .leaflet-tile,
+      .leaflet-marker-icon,
+      .leaflet-marker-shadow {
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      .leaflet-safari .leaflet-tile {
+        image-rendering: -webkit-optimize-contrast;
+      }
+
+      .leaflet-marker-icon,
+      .leaflet-marker-shadow {
+        display: block;
+      }
+
+      .leaflet-container .leaflet-overlay-pane svg {
+        max-width: none;
+        max-height: none;
+      }
+
+      .leaflet-container .leaflet-marker-pane img,
+      .leaflet-container .leaflet-shadow-pane img,
+      .leaflet-container .leaflet-tile-pane img,
+      .leaflet-container img.leaflet-image-layer,
+      .leaflet-container .leaflet-tile {
+        max-width: none !important;
+        max-height: none !important;
+        padding: 0;
+      }
+
+      .leaflet-tile {
+        filter: inherit;
+        visibility: hidden;
+      }
+
+      .leaflet-tile-loaded {
+        visibility: inherit;
+      }
+
+      .leaflet-zoom-box {
+        width: 0;
+        height: 0;
+        border: 2px dotted #38f;
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      .leaflet-pane {
+        z-index: 400;
+      }
+
+      .leaflet-tile-pane {
+        z-index: 200;
+      }
+
+      .leaflet-overlay-pane {
+        z-index: 400;
+      }
+
+      .leaflet-shadow-pane {
+        z-index: 500;
+      }
+
+      .leaflet-marker-pane {
+        z-index: 600;
+      }
+
+      .leaflet-tooltip-pane {
+        z-index: 650;
+      }
+
+      .leaflet-popup-pane {
+        z-index: 700;
+      }
+
+      .leaflet-map-pane canvas {
+        z-index: 100;
+      }
+
+      .leaflet-map-pane svg {
+        z-index: 200;
+      }
+
+      .leaflet-vml-shape {
+        width: 1px;
+        height: 1px;
+      }
+
+      .lvml {
+        behavior: url(#default#VML);
+        display: inline-block;
+        position: absolute;
+      }
+
+      .leaflet-control {
+        position: relative;
+        z-index: 800;
+        pointer-events: visiblePainted;
+        pointer-events: auto;
+      }
+
+      .leaflet-top,
+      .leaflet-bottom {
+        position: absolute;
+        z-index: 1000;
+        pointer-events: none;
+      }
+
+      .leaflet-top {
+        top: 0;
+      }
+
+      .leaflet-right {
+        right: 0;
+      }
+
+      .leaflet-bottom {
+        bottom: 0;
+      }
+
+      .leaflet-left {
+        left: 0;
+      }
+
+      .leaflet-control {
+        float: left;
+        clear: both;
+      }
+
+      .leaflet-right .leaflet-control {
+        float: right;
+      }
+
+      .leaflet-top .leaflet-control {
+        margin-top: 10px;
+      }
+
+      .leaflet-bottom .leaflet-control {
+        margin-bottom: 10px;
+      }
+
+      .leaflet-left .leaflet-control {
+        margin-left: 10px;
+      }
+
+      .leaflet-right .leaflet-control {
+        margin-right: 10px;
+      }
+
+      .leaflet-fade-anim .leaflet-popup,
+      .leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+        opacity: 0;
+        transition: opacity 0.2s linear;
+      }
+
+      .leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+        opacity: 1;
+      }
+
+      .leaflet-zoom-animated {
+        transform-origin: 0 0;
+      }
+
+      .leaflet-interactive {
+        cursor: pointer;
+      }
+
+      .leaflet-control-zoom {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(7, 72, 110, 0.12);
+        overflow: hidden;
+      }
+
+      .leaflet-control-zoom a {
+        display: block;
+        width: 34px;
+        height: 34px;
+        background: #fff;
+        color: var(--blue-deep);
+        font-size: 22px;
+        font-weight: 800;
+        line-height: 32px;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .leaflet-control-zoom a + a {
+        border-top: 1px solid var(--line);
+      }
+
+      :root {
+        --blue: #0877b9;
+        --blue-deep: #064c78;
+        --blue-soft: #dff4ff;
+        --ink: #14364d;
+        --muted: #637d8f;
+        --line: #d6e8f1;
+        --shell: #f5fbff;
+        --surface: #ffffff;
+        --accent: #c76b4d;
+        --shadow: 0 18px 45px rgba(5, 62, 95, 0.16);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--shell);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button,
+      a.button-link {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .app {
+        min-height: 100vh;
+      }
+
+      .map-shell {
+        position: relative;
+        min-height: 62vh;
+        overflow: hidden;
+        background: #d7edf7;
+        border-bottom: 1px solid var(--line);
+      }
+
+      #map {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+      }
+
+      .map-header {
+        position: absolute;
+        top: max(14px, env(safe-area-inset-top));
+        left: 14px;
+        right: 14px;
+        z-index: 500;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        pointer-events: none;
+      }
+
+      .title-lockup {
+        max-width: min(74vw, 460px);
+        padding: 10px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.72);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 10px 24px rgba(7, 72, 110, 0.12);
+        backdrop-filter: blur(10px);
+      }
+
+      .eyebrow {
+        margin: 0 0 2px;
+        color: var(--blue-deep);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.12rem;
+        line-height: 1.15;
+      }
+
+      .count-pill {
+        flex: 0 0 auto;
+        padding: 8px 10px;
+        border-radius: 999px;
+        background: var(--blue);
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 800;
+        box-shadow: 0 10px 24px rgba(8, 119, 185, 0.28);
+      }
+
+      .map-card {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 800;
+        max-height: min(72vh, 620px);
+        overflow: hidden;
+        border-radius: 24px 24px 0 0;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        transform: translateY(calc(100% + 18px));
+        transition: transform 220ms ease;
+      }
+
+      .map-card.is-open {
+        transform: translateY(0);
+      }
+
+      .sheet-handle {
+        width: 42px;
+        height: 4px;
+        margin: 10px auto 8px;
+        border-radius: 999px;
+        background: #bcd6e5;
+      }
+
+      .sheet-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        z-index: 2;
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.93);
+        color: var(--blue-deep);
+        font-size: 1.2rem;
+        font-weight: 800;
+        box-shadow: 0 8px 22px rgba(5, 62, 95, 0.16);
+        cursor: pointer;
+      }
+
+      .sheet-media {
+        position: relative;
+        height: 205px;
+        overflow: hidden;
+        background: var(--blue-soft);
+      }
+
+      .sheet-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .sheet-content {
+        max-height: calc(72vh - 205px);
+        overflow-y: auto;
+        padding: 16px 18px max(22px, env(safe-area-inset-bottom));
+      }
+
+      .meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .rank-chip,
+      .category-chip,
+      .rating-chip,
+      .note-chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 0.74rem;
+        font-weight: 800;
+      }
+
+      .rank-chip {
+        background: var(--blue);
+        color: #fff;
+      }
+
+      .category-chip {
+        background: var(--blue-soft);
+        color: var(--blue-deep);
+      }
+
+      .rating-chip {
+        background: #fff3ed;
+        color: #8f492e;
+      }
+
+      .note-chip {
+        background: #f7edf0;
+        color: #8a4c5d;
+      }
+
+      .sheet-title {
+        margin: 0 0 8px;
+        color: var(--ink);
+        font-size: 1.35rem;
+        line-height: 1.15;
+      }
+
+      .sheet-copy {
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .button,
+      .button-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        gap: 8px;
+        padding: 10px 14px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .button-primary,
+      .button-link {
+        background: var(--blue);
+        color: #fff;
+        box-shadow: 0 10px 22px rgba(8, 119, 185, 0.2);
+      }
+
+      .button-secondary {
+        background: var(--surface);
+        color: var(--blue-deep);
+        border-color: var(--line);
+      }
+
+      main {
+        padding: 20px 14px 42px;
+      }
+
+      .section-head {
+        max-width: 1120px;
+        margin: 0 auto 14px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.35rem;
+      }
+
+      .source-link {
+        color: var(--blue-deep);
+        font-size: 0.84rem;
+        font-weight: 800;
+        text-decoration-color: rgba(8, 119, 185, 0.35);
+        text-underline-offset: 3px;
+        white-space: nowrap;
+      }
+
+      .destination-list {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: grid;
+        gap: 12px;
+      }
+
+      .destination-card {
+        display: grid;
+        grid-template-columns: 104px 1fr;
+        gap: 12px;
+        min-height: 138px;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: 0 10px 26px rgba(7, 72, 110, 0.07);
+      }
+
+      .destination-card.is-active {
+        border-color: rgba(8, 119, 185, 0.52);
+        box-shadow: 0 12px 30px rgba(8, 119, 185, 0.16);
+      }
+
+      .card-image {
+        width: 104px;
+        height: 118px;
+        overflow: hidden;
+        border-radius: 8px;
+        background: var(--blue-soft);
+      }
+
+      .card-image img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+
+      .card-body {
+        min-width: 0;
+        display: grid;
+        align-content: start;
+        gap: 7px;
+      }
+
+      .card-kicker {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .card-title {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.02rem;
+        line-height: 1.16;
+      }
+
+      .card-copy {
+        display: -webkit-box;
+        margin: 0;
+        overflow: hidden;
+        color: var(--muted);
+        font-size: 0.88rem;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
+
+      .card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 2px;
+      }
+
+      .card-actions .button,
+      .card-actions .button-link {
+        min-height: 36px;
+        padding: 8px 10px;
+        font-size: 0.82rem;
+      }
+
+      .footer-note {
+        max-width: 1120px;
+        margin: 22px auto 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .poi-marker {
+        position: relative;
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border-radius: 999px 999px 999px 6px;
+        background: var(--blue);
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 900;
+        line-height: 1;
+        transform: rotate(-45deg);
+        box-shadow: 0 8px 18px rgba(6, 76, 120, 0.32);
+        transition: background 160ms ease, transform 160ms ease;
+      }
+
+      .poi-marker::before {
+        position: absolute;
+        inset: 6px;
+        content: "";
+        border: 3px solid #fff;
+        border-radius: 999px;
+      }
+
+      .poi-marker span {
+        position: relative;
+        z-index: 1;
+        transform: rotate(45deg);
+      }
+
+      .poi-marker.is-active {
+        background: var(--accent);
+        transform: rotate(-45deg) scale(1.16);
+      }
+
+      .leaflet-control-attribution {
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      @media (min-width: 720px) {
+        .map-shell {
+          min-height: 66vh;
+        }
+
+        .title-lockup {
+          padding: 12px 14px;
+        }
+
+        h1 {
+          font-size: 1.45rem;
+        }
+
+        .map-card {
+          left: auto;
+          right: 22px;
+          bottom: 22px;
+          width: min(420px, calc(100vw - 44px));
+          border-radius: 16px;
+        }
+
+        .sheet-handle {
+          display: none;
+        }
+
+        .sheet-media {
+          height: 220px;
+        }
+
+        .sheet-content {
+          max-height: 380px;
+        }
+
+        main {
+          padding: 28px 22px 54px;
+        }
+
+        .destination-list {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+        }
+      }
+
+      @media (min-width: 1080px) {
+        .destination-list {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .destination-card {
+          grid-template-columns: 1fr;
+        }
+
+        .card-image {
+          width: 100%;
+          height: 190px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <section class="map-shell" id="map-section" aria-label="Santorini map">
+        <div id="map"></div>
+        <div class="map-header">
+          <div class="title-lockup">
+            <p class="eyebrow">Santorini</p>
+            <h1>Group itinerary map</h1>
+          </div>
+          <div class="count-pill">12 stops</div>
+        </div>
+
+        <article class="map-card" id="map-card" aria-live="polite" aria-hidden="true">
+          <div class="sheet-handle"></div>
+          <button class="sheet-close" type="button" id="close-card" aria-label="Close location card">x</button>
+          <div class="sheet-media">
+            <img id="sheet-image" alt="">
+          </div>
+          <div class="sheet-content">
+            <div class="meta-row" id="sheet-meta"></div>
+            <h2 class="sheet-title" id="sheet-title"></h2>
+            <p class="sheet-copy" id="sheet-copy"></p>
+            <div class="actions">
+              <a class="button-link" id="sheet-link" href="#" target="_blank" rel="noopener">Open TripAdvisor</a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <main>
+        <div class="section-head">
+          <h2>Places to see</h2>
+          <a class="source-link" href="https://www.tripadvisor.com/Attractions-g189433-Activities-Santorini_Cyclades_South_Aegean.html" target="_blank" rel="noopener">TripAdvisor source</a>
+        </div>
+
+        <section class="destination-list" id="destination-list" aria-label="Santorini points of interest"></section>
+
+        <p class="footer-note">
+          Attraction order and photos are based on the TripAdvisor Santorini attractions page accessed for this private group guide.
+        </p>
+      </main>
+    </div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""></script>
+    <script>
+      const destinations = [
+        {
+          id: "kamari-beach",
+          rank: 1,
+          title: "Kamari Beach",
+          category: "Beach",
+          rating: "4.1",
+          reviewCount: "7,179",
+          image: "assets/poi/kamari-beach.jpg",
+          lat: 36.3762,
+          lng: 25.4803,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g658914-d2663198-Reviews-Kamari_Beach-Kamari_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A black-sand beach on Santorini's southeast coast, backed by Mesa Vouno and a long promenade for swimming, sunbeds, and easy group meetups."
+        },
+        {
+          id: "perissa-black-sand-beach",
+          rank: 2,
+          title: "Perissa Black Sand Beach",
+          category: "Beach",
+          rating: "4.3",
+          reviewCount: "6,003",
+          image: "assets/poi/perissa-black-sand-beach.jpg",
+          lat: 36.3531,
+          lng: 25.473,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g635608-d1932270-Reviews-Perissa_Black_Sand_Beach-Perissa_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A relaxed volcanic beach with dark sand, clear water, beach bars, and watersports along the south-east side of the island."
+        },
+        {
+          id: "amoudi-bay",
+          rank: 3,
+          title: "Amoudi Bay",
+          category: "Waterfront",
+          rating: "4.5",
+          reviewCount: "4,056",
+          image: "assets/poi/amoudi-bay.jpg",
+          lat: 36.4614,
+          lng: 25.3738,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g482941-d1223227-Reviews-Amoudi_Bay-Oia_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A small harbor below Oia with seafood tavernas, caldera views, swimming rocks nearby, and a steep step route back up to the village."
+        },
+        {
+          id: "akrotiri-archaeological-site",
+          rank: 4,
+          title: "Akrotiri Archaeological Site",
+          category: "Ancient ruins",
+          rating: "4.2",
+          reviewCount: "5,847",
+          image: "assets/poi/akrotiri-archaeological-site.jpg",
+          lat: 36.3515,
+          lng: 25.4037,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g1189834-d4126654-Reviews-Akrotiri_Archaeological_Site-Akrotiri_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A sheltered Bronze Age settlement preserved under volcanic ash, with streets, buildings, and finds that show Santorini before the eruption."
+        },
+        {
+          id: "red-beach",
+          rank: 5,
+          title: "Red Beach",
+          category: "Beach",
+          rating: "3.6",
+          reviewCount: "6,488",
+          image: "assets/poi/red-beach.jpg",
+          lat: 36.3489,
+          lng: 25.3948,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g1189834-d641334-Reviews-Red_Beach-Akrotiri_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A compact photo stop near Akrotiri where red volcanic cliffs drop toward blue water. The path is short but exposed, so good shoes help."
+        },
+        {
+          id: "sunset-in-oia",
+          rank: 6,
+          title: "Sunset in Oia",
+          category: "Viewpoint",
+          rating: "4.4",
+          reviewCount: "9,935",
+          image: "assets/poi/sunset-in-oia.jpg",
+          lat: 36.4618,
+          lng: 25.3753,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g482941-d3369820-Reviews-Sunset_in_Oia-Oia_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "The classic Santorini sunset scene, best planned early so the group can settle into a viewpoint before the narrow lanes fill up."
+        },
+        {
+          id: "monolithos-castle",
+          rank: 7,
+          title: "Monolithos Castle",
+          category: "Needs verification",
+          rating: "4.6",
+          reviewCount: "1,140",
+          image: "assets/poi/monolithos-castle.jpg",
+          lat: 36.4149,
+          lng: 25.4821,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g644213-d678780-Reviews-Monolithos_Castle-Monolithos_Santorini_Cyclades_South_Aegean.html",
+          note: "TripAdvisor lists this in the Santorini top section, but many references point to Rhodes. Marker is pinned to Santorini's Monolithos area for review.",
+          shortInfo: "An ambiguous TripAdvisor listing from the current top-attractions page. Keep it as a research item before adding it to a real day plan."
+        },
+        {
+          id: "perivolos-beach",
+          rank: 8,
+          title: "Perivolos Beach",
+          category: "Beach",
+          rating: "4.4",
+          reviewCount: "1,388",
+          image: "assets/poi/perivolos-beach.jpg",
+          lat: 36.3388,
+          lng: 25.4538,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g657830-d6988148-Reviews-Perivolos_Beach-Perivolos_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A long southern black-sand stretch with clear water, beach clubs, and an easy-going pace for a longer swim-and-lunch stop."
+        },
+        {
+          id: "vlychada-beach",
+          rank: 9,
+          title: "Vlychada Beach",
+          category: "Beach",
+          rating: "4.3",
+          reviewCount: "840",
+          image: "assets/poi/vlychada-beach.jpg",
+          lat: 36.3386,
+          lng: 25.4314,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g1188919-d6882559-Reviews-Vlychada_Beach-Vlychada_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A quieter volcanic beach known for sculpted pumice cliffs, a nearby marina, and a landscape that feels different from the busier resorts."
+        },
+        {
+          id: "domaine-sigalas",
+          rank: 10,
+          title: "Domaine Sigalas",
+          category: "Winery",
+          rating: "4.7",
+          reviewCount: "1,065",
+          image: "assets/poi/domaine-sigalas.jpg",
+          lat: 36.4553,
+          lng: 25.4074,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g482941-d2663788-Reviews-Domaine_Sigalas-Oia_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A winery near Oia for Santorini Assyrtiko, tastings, food pairings, and a calmer group stop away from the cliff-edge crowds."
+        },
+        {
+          id: "ancient-thera",
+          rank: 11,
+          title: "Ancient Thera",
+          category: "Historic site",
+          rating: "4.3",
+          reviewCount: "2,440",
+          image: "assets/poi/ancient-thera.jpg",
+          lat: 36.3645,
+          lng: 25.4797,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g658914-d243145-Reviews-Ancient_Thera-Kamari_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A ridge-top ancient settlement above Kamari and Perissa, with ruins from several periods and wide views across the east coast."
+        },
+        {
+          id: "museum-prehistoric-thira",
+          rank: 12,
+          title: "Museum of Prehistoric Thira",
+          category: "Museum",
+          rating: "4.4",
+          reviewCount: "1,991",
+          image: "assets/poi/museum-prehistoric-thira.jpg",
+          lat: 36.4167,
+          lng: 25.4318,
+          tripadvisorUrl: "https://www.tripadvisor.com/Attraction_Review-g482942-d243151-Reviews-Museum_of_Prehistoric_Thira-Fira_Santorini_Cyclades_South_Aegean.html",
+          shortInfo: "A compact Fira museum with important finds from Akrotiri and prehistoric Thira, useful before or after visiting the archaeological site."
+        }
+      ];
+
+      const map = L.map("map", {
+        zoomControl: false,
+        scrollWheelZoom: true
+      }).setView([36.405, 25.438], 11);
+
+      L.control.zoom({ position: "bottomright" }).addTo(map);
+
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        maxZoom: 20,
+        detectRetina: true,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      }).addTo(map);
+
+      const markers = new Map();
+      const markerBounds = L.latLngBounds(destinations.map((place) => [place.lat, place.lng]));
+      const list = document.getElementById("destination-list");
+      const sheet = document.getElementById("map-card");
+      const sheetImage = document.getElementById("sheet-image");
+      const sheetTitle = document.getElementById("sheet-title");
+      const sheetCopy = document.getElementById("sheet-copy");
+      const sheetMeta = document.getElementById("sheet-meta");
+      const sheetLink = document.getElementById("sheet-link");
+      const closeCard = document.getElementById("close-card");
+      let activeId = null;
+
+      function markerIcon(place, isActive = false) {
+        return L.divIcon({
+          className: "",
+          html: `<span class="poi-marker ${isActive ? "is-active" : ""}"><span>${place.rank}</span></span>`,
+          iconSize: [44, 44],
+          iconAnchor: [19, 38]
+        });
+      }
+
+      function metaHtml(place) {
+        const note = place.note ? '<span class="note-chip">Verify</span>' : "";
+        return `
+          <span class="rank-chip">#${place.rank}</span>
+          <span class="category-chip">${place.category}</span>
+          <span class="rating-chip">${place.rating} (${place.reviewCount})</span>
+          ${note}
+        `;
+      }
+
+      function setActive(place, options = {}) {
+        activeId = place.id;
+
+        destinations.forEach((item) => {
+          const marker = markers.get(item.id);
+          marker.setIcon(markerIcon(item, item.id === place.id));
+        });
+
+        document.querySelectorAll(".destination-card").forEach((card) => {
+          card.classList.toggle("is-active", card.dataset.placeId === place.id);
+        });
+
+        sheetImage.src = place.image;
+        sheetImage.alt = place.title;
+        sheetTitle.textContent = place.title;
+        sheetCopy.textContent = place.note ? `${place.shortInfo} ${place.note}` : place.shortInfo;
+        sheetMeta.innerHTML = metaHtml(place);
+        sheetLink.href = place.tripadvisorUrl;
+        sheet.classList.add("is-open");
+        sheet.setAttribute("aria-hidden", "false");
+
+        if (options.focusMap) {
+          document.getElementById("map-section").scrollIntoView({ block: "start" });
+        }
+
+        map.flyTo([place.lat, place.lng], options.zoom || 14, {
+          duration: 0.55
+        });
+      }
+
+      function closeSheet() {
+        sheet.classList.remove("is-open");
+        sheet.setAttribute("aria-hidden", "true");
+      }
+
+      closeCard.addEventListener("click", closeSheet);
+
+      destinations.forEach((place) => {
+        const marker = L.marker([place.lat, place.lng], {
+          icon: markerIcon(place),
+          title: place.title,
+          riseOnHover: true
+        }).addTo(map);
+
+        marker.on("click", () => setActive(place));
+        marker.on("touchstart", () => setActive(place));
+        markers.set(place.id, marker);
+
+        const article = document.createElement("article");
+        article.className = "destination-card";
+        article.dataset.placeId = place.id;
+        article.innerHTML = `
+          <div class="card-image">
+            <img src="${place.image}" alt="${place.title}" loading="lazy">
+          </div>
+          <div class="card-body">
+            <div class="card-kicker">
+              <span class="rank-chip">#${place.rank}</span>
+              <span class="category-chip">${place.category}</span>
+              ${place.note ? '<span class="note-chip">Verify</span>' : ""}
+            </div>
+            <h3 class="card-title">${place.title}</h3>
+            <p class="card-copy">${place.shortInfo}</p>
+            <div class="card-actions">
+              <button class="button button-primary" type="button" data-map-target="${place.id}">See on map</button>
+              <a class="button-link button-secondary" href="${place.tripadvisorUrl}" target="_blank" rel="noopener">TripAdvisor</a>
+            </div>
+          </div>
+        `;
+        list.appendChild(article);
+
+        const mapButton = article.querySelector("[data-map-target]");
+        mapButton.addEventListener("click", () => setActive(place, { focusMap: true }));
+      });
+
+      map.fitBounds(markerBounds, {
+        paddingTopLeft: [32, 84],
+        paddingBottomRight: [32, 80]
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeSheet();
+      });
+
+      window.addEventListener("resize", () => {
+        window.requestAnimationFrame(() => map.invalidateSize());
+      });
+    </script>
+  </body>
+</html>
